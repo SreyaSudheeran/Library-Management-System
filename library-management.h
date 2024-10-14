@@ -33,5 +33,9 @@ void add_book(Book books[], int *book_count);
 void display_books(Book books[], int book_count);
 void add_user(User users[], int *user_count);
 void display_users(User users[], int user_count);
+void display_single_user(User user);
+int check_availability_by_no(Book books[], int book_count, int book_no);
+int check_availability_by_name(Book books[], int book_count, const char *book_name);
+void users_returning_on_date(User users[], int user_count, const char *date);
 
 #endif // LIBRARY_MANAGEMENT_H

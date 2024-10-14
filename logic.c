@@ -119,3 +119,58 @@ void display_users(User users[], int user_count) {
         }
     }
 }
+
+// Display information for a single user
+void display_single_user(User user) {
+    printf("User ID: %d, Name: %s\n", user.id, user.name);
+    printf("Books Issued: %d\n", user.books_issued.len);
+    for (int i = 0; i < user.books_issued.len; i++) {
+        printf("  Book No: %d, Return Date: %s\n",
+               user.books_issued.books_no[i], user.books_issued.return_date[i]);
+    }
+}
+
+// Check if a book is available by its number
+int check_availability_by_no(Book books[], int book_count, int book_no) {
+    for (int i = 0; i < book_count; i++) {
+        if (books[i].book_no == book_no) {
+            printf("Book Name: %s, Available Copies: %d\n",
+                   books[i].book_name, books[i].no_of_books_available);
+            return books[i].no_of_books_available > 0;
+        }
+    }
+    printf("Book with number %d not found.\n", book_no);
+    return 0;  // Not available or not found
+}
+
+// Check if a book is available by its name
+int check_availability_by_name(Book books[], int book_count, const char *book_name) {
+    for (int i = 0; i < book_count; i++) {
+        if (strcmp(books[i].book_name, book_name) == 0) {
+            printf("Book No: %d, Available Copies: %d\n",
+                   books[i].book_no, books[i].no_of_books_available);
+            return books[i].no_of_books_available > 0;
+        }
+    }
+    printf("Book with name '%s' not found.\n", book_name);
+    return 0;  // Not available or not found
+}
+
+// Find users who need to return books on a specific date
+void users_returning_on_date(User users[], int user_count, const char *date) {
+    int found = 0;
+    printf("\n--- Users Returning Books on %s ---\n", date);
+    for (int i = 0; i < user_count; i++) {
+        for (int j = 0; j < users[i].books_issued.len; j++) {
+            if (strcmp(users[i].books_issued.return_date[j], date) == 0) {
+                display_single_user(users[i]);
+                found = 1;
+                break;  // Move to the next user after printing once
+            }
+        }
+    }
+    if (!found) {
+        printf("No users have books to return on %s.\n", date);
+    }
+}
+
